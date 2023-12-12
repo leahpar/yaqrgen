@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\QrCodeParameter;
 use chillerlan\QRCode\Common\EccLevel;
+use chillerlan\QRCode\Data\QRMatrix;
 use chillerlan\QRCode\Output\QROutputInterface;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
@@ -39,7 +40,25 @@ class QrCodeGenerator
                 'eccLevel' => EccLevel::L,
                 'outputType' => QROutputInterface::IMAGICK,
                 'imagickFormat' => $format,
-                'imageTransparent' => true,
+                'imageTransparent' => $qrCodeParameter->transparent,
+                'bgColor' => $qrCodeParameter->bgColor,
+                'moduleValues' => [
+                    QRMatrix::M_FINDER_DARK    => $qrCodeParameter->color,
+                    QRMatrix::M_FINDER_DOT     => $qrCodeParameter->color,
+                    QRMatrix::M_FINDER         => $qrCodeParameter->bgColor,
+                    QRMatrix::M_ALIGNMENT_DARK => $qrCodeParameter->color,
+                    QRMatrix::M_ALIGNMENT      => $qrCodeParameter->bgColor,
+                    QRMatrix::M_VERSION_DARK   => $qrCodeParameter->color,
+                    QRMatrix::M_VERSION        => $qrCodeParameter->bgColor,
+                    QRMatrix::M_TIMING_DARK    => $qrCodeParameter->color,
+                    QRMatrix::M_TIMING         => $qrCodeParameter->bgColor,
+                    QRMatrix::M_FORMAT_DARK    => $qrCodeParameter->color,
+                    QRMatrix::M_FORMAT         => $qrCodeParameter->bgColor,
+                    QRMatrix::M_DARKMODULE     => $qrCodeParameter->color,
+                    QRMatrix::M_SEPARATOR      => $qrCodeParameter->bgColor,
+                    QRMatrix::M_DATA_DARK      => $qrCodeParameter->color,
+                    QRMatrix::M_DATA           => $qrCodeParameter->bgColor,
+                ],
             ];
         }
 

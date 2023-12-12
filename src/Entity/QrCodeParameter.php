@@ -12,11 +12,20 @@ class QrCodeParameter
 
     public string $format = 'png';
 
+    #[Assert\Regex(pattern: '/^#[0-9a-fA-F]{6}$/')]
+    public string $color = '#000000';
+
+    #[Assert\Regex(pattern: '/^#[0-9a-fA-F]{6}$/')]
+    public string $bgColor = '#FFFFFF';
+
+    public bool $transparent = true;
+
+    #[Assert\Url]
+    public ?string $logoUrl = null;
+
     public function __toArray(): array
     {
-        return [
-            'data' => $this->data,
-            'format' => $this->format,
-        ];
+        return get_object_vars($this);
     }
+
 }

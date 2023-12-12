@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\QrCodeParameter;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,7 +14,13 @@ class QrCodeParameterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('data')
+            ->add('data', Type\TextType::class)
+            ->add('color', Type\ColorType::class)
+            ->add('bgColor', Type\ColorType::class)
+            ->add('transparent', Type\CheckboxType::class, [
+                'required' => false,
+            ])
+            ->add('logoUrl', Type\UrlType::class)
         ;
     }
 

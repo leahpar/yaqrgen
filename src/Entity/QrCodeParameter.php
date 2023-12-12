@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class QrCodeParameter
 {
 
+    #[Assert\Length(max: 2048)]
     public string $data = 'https://yaqrgen.com/';
-    public string $format = 'svg';
+
+    public string $format = 'png';
 
     public function __toArray(): array
     {

@@ -18,7 +18,9 @@ class DefaultController extends AbstractController
     public function index(Request $request)
     {
         $qrCodeParameter = new QrCodeParameter();
-        $form = $this->createForm(QrCodeParameterType::class, $qrCodeParameter);
+        $form = $this->createForm(QrCodeParameterType::class, $qrCodeParameter, [
+            'method' => 'GET',
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -38,8 +40,7 @@ class DefaultController extends AbstractController
         string $format
     ) {
         $qrCodeParameter ??= new QrCodeParameter();
-        $qrCodeParameter->format = $format;
-        $qrcode = $qrCodeGenerator->generate($qrCodeParameter);
+        $qrcode = $qrCodeGenerator->generate($qrCodeParameter, $format);
 
         $contentType = match ($qrCodeParameter->format) {
             'png' => 'image/png',

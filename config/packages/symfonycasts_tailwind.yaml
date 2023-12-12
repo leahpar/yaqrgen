@@ -1,0 +1,4 @@
+symfonycasts_tailwind:
+
+    # Path to CSS file to process through Tailwind
+    #input_css: '%kernel.project_dir%/public/css/style.css'

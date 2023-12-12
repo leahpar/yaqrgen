@@ -1,17 +1,55 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+<html lang="fr" class="h-full bg-gray-100">
+<head>
+    <meta charset="UTF-8">
+    <title>Yaqrgen</title>
 
-        {% block javascripts %}
-{% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+    <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+    {% endblock %}
+
+</head>
+<body class="h-full">
+
+    {{ include('default/beta_warning.html.twig') }}
+
+    <div class="min-h-full">
+        <header class="bg-indigo-600 pb-24">
+            <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+                <div class="relative flex items-center justify-center py-5 lg:justify-between">
+                    <!-- Logo -->
+                    <div class="absolute left-0 flex-shrink-0 lg:static">
+{#                        <a href="/">#}
+{#                            <span class="sr-only">YAQRGEN</span>#}
+{#                            <img class="h-8 w-auto" src="{{ asset('img/logo.png') }}" alt="Yaqrgen Logo">#}
+{#                        </a>#}
+                    </div>
+
+                    <!-- Right section on desktop -->
+                    <div class="hidden lg:ml-4 lg:flex lg:items-center lg:pr-0.5">
+                    </div>
+
+
+                </div>
+            </div>
+
+        </header>
+        <main class="-mt-24 pb-8">
+            <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+
+                {% block content %}{% endblock %}
+
+            </div>
+        </main>
+        <footer>
+            <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+                <div class="border-t border-gray-200 py-8 text-center text-sm text-gray-500 sm:text-left">
+                    <span class="block sm:inline">(ↄ) 2023 - 42 Pixels Inc. - No right reserved.</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+</body>
 </html>

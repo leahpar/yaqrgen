@@ -14,13 +14,24 @@ class QrCodeParameterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('data', Type\TextType::class)
+            ->add('data', Type\TextareaType::class)
+            ->add('format', Type\ChoiceType::class, [
+                'choices' => [
+                    'png' => 'png',
+                    'jpg' => 'jpg',
+                    'wepb' => 'wepb',
+                    'svg' => 'svg',
+                ],
+            ])
+            ->add('logoUrl', Type\UrlType::class, [
+                'required' => false,
+            ])
+
             ->add('color', Type\ColorType::class)
             ->add('bgColor', Type\ColorType::class)
             ->add('transparent', Type\CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('logoUrl', Type\UrlType::class)
         ;
     }
 

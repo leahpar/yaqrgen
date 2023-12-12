@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\QrCodeParameter;
 use App\Form\QrCodeParameterType;
-use App\Service\QrCodeGenerator;
+use App\QrCodeGenerator\QrCodeGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,6 +40,7 @@ class DefaultController extends AbstractController
         string $format
     ) {
         $qrCodeParameter ??= new QrCodeParameter();
+        $qrCodeParameter->format = $format;
         $qrcode = $qrCodeGenerator->generate($qrCodeParameter, $format);
 
         $contentType = match ($qrCodeParameter->format) {

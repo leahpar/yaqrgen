@@ -1,0 +1,45 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Yaqrgen</title>
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+        }
+        body {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: stretch;
+        }
+        section {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <h2>FORM</h2>
+    {{ form_start(form) }}
+
+    {{ form_label(form.data) }}
+    {{ form_widget(form.data) }}
+    {{ form_errors(form.data) }}
+
+    <input type="submit">
+    {{ form_end(form) }}
+</section>
+<section>
+    <h2>IMAGE</h2>
+    {% set url = "qrcode.svg?" ~ (qrCodeParameter.__toArray|url_encode) %}
+    <a href="{{ url }}">
+    <img src="{{ url }}">
+    </a>
+    {{ dump(url, qrCodeParameter) }}
+</section>
+</body>
+</html>

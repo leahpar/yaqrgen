@@ -37,7 +37,7 @@ class QRImageWithLogo extends QRGdImagePNG
         // get the qrcode size
         $ql = ($this->matrix->getSize() * $this->options->scale);
 
-        dump(options:$this->options, im:$im, w:$w, h:$h, lw:$lw, lh:$lh, ql:$ql);
+        //dump(options:$this->options, im:$im, w:$w, h:$h, lw:$lw, lh:$lh, ql:$ql);
         // scale the logo and copy it over. done!
         imagecopyresampled($this->image, $im, (($ql - $lw) / 2), (($ql - $lh) / 2), 0, 0, $lw, $lh, $w, $h);
 

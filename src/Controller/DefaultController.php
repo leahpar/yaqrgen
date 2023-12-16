@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\QrCodeParameter;
 use App\Form\QrCodeParameterType;
 use App\QrCodeGenerator\QrCodeGenerator;
+use App\QrCodeGenerator\QrCodeReader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,8 @@ class DefaultController extends AbstractController
         $form = $this->createForm(QrCodeParameterType::class, $qrCodeParameter, [
             'method' => 'GET',
         ]);
-        $form->handleRequest($request);
+        //$form->handleRequest($request);
+        $form->submit($request->query->all(), false);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -43,6 +45,14 @@ class DefaultController extends AbstractController
     ) {
         $qrCodeParameter ??= new QrCodeParameter();
         $qrCodeParameter->format = $format;
+
+        if ($qrCodeParameter->logoUrl && $format != 'png') {
+            return $this->redirectToRoute('qrcode', [
+                ...$qrCodeParameter->__toArray(),
+                'format' => 'png',
+            ]);
+        }
+
         $qrcode = $qrCodeGenerator->generate($qrCodeParameter, $format);
 
         $contentType = match ($qrCodeParameter->format) {
@@ -59,6 +69,16 @@ class DefaultController extends AbstractController
                 'Content-Disposition' => 'inline; filename="qrcode.'.$format.'"',
             ]
         );
+    }
+
+    public function check(QrCodeReader $qrCodeReader, ?string $url = null)
+    {
+        dump($url);
+        $data = $qrCodeReader->read($url);
+        dump($data);
+        return $this->render('default/check.html.twig', [
+            'data' => $data,
+        ]);
     }
 
 }

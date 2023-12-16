@@ -5,7 +5,7 @@
 <!-- Main 3 column grid -->
 <div class="grid grid-cols-1 items-start gap-4 lg:grid-cols-3 lg:gap-8">
     <!-- Left column -->
-    <div class="grid grid-cols-1 gap-4 lg:col-span-2">
+    <div class="grid grid-cols-1 gap-4 lg:col-span-2 ">
         <section aria-labelledby="section-1-title">
             <div class="overflow-hidden rounded-lg bg-white shadow">
                 <div class="p-6">
@@ -26,11 +26,13 @@
 
                     {% set url = "qrcode." ~ qrCodeParameter.format ~ "?" ~ (qrCodeParameter.__toArray|url_encode) %}
                     <a href="{{ url }}" class="bg-slate-400" target="_blank">
-                        <img src="{{ url }}" class="w-full">
+                        <img src="{{ url }}" class="w-full  rounded-md">
                     </a>
 
-                    <p class="text-center text-orange-400 bg-orange-100 p-2 rounded-md">
-                    ⚠️ <br> Site en construction, les QR Codes générés ne sont pas garantis !
+{#                    {{ render(controller('App\\Controller\\DefaultController::check', {url: url})) }}#}
+
+                    <p class="text-center text-orange-400 bg-orange-100 p-2 rounded-md mt-2">
+                    ⚠️ <br> Pensez à vérifier que le QR code est bien lisible avant de l'utiliser !
                     </p>
 
                 </div>

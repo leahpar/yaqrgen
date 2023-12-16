@@ -15,6 +15,10 @@ class QrCodeGenerator
 
     public function generate(QrCodeParameter $qrCodeParameter, string $format): string
     {
+        if ($qrCodeParameter->logoUrl) {
+            $format = 'png'; // TODO: support other formats
+        }
+
         $options = $this->getOptions($qrCodeParameter, $format);
         $qroptions = new QROptions($options);
         $qrcode = new QRCode($qroptions);
@@ -40,52 +44,90 @@ class QrCodeGenerator
 
     private function getOptions(QrCodeParameter $qrCodeParameter, string $format): array
     {
-        if ($format === 'svg') {
-            return $options = [
-                //'version' => 10, // https://www.qrcode.com/en/about/version.html
-                'versionMin' => 2,
-                'versionMax' => 10,
-                'eccLevel' => EccLevel::L,
-                'outputType' => QROutputInterface::MARKUP_SVG,
-                //'drawCircularModules' => true,
-                'svgUseFillAttributes' => true,
-            ];
-        }
-        else {
-            return $options = [
-                //'version' => 10,
-                'versionMin' => 2,
-                'versionMax' => 10,
-                'eccLevel' => $qrCodeParameter->logoUrl ? EccLevel::H : EccLevel::L,
-                'outputType' => QROutputInterface::IMAGICK,
-                'imagickFormat' => $format,
+        $eccLevel = match ($qrCodeParameter->eccLevel) {
+            'L' => EccLevel::L,
+            'M' => EccLevel::M,
+            'Q' => EccLevel::Q,
+            'H' => EccLevel::H,
+        };
 
-                'addLogoSpace'        => !empty($qrCodeParameter->logoUrl),
-                'logoSpaceWidth'      => 10,
-                'logoSpaceHeight'     => 10,
-                'scale'               => 20,
+        $outputType = match ($format) {
+            'svg' => QROutputInterface::MARKUP_SVG,
+            default => QROutputInterface::IMAGICK,
+        };
 
-                'imageTransparent' => $qrCodeParameter->transparent,
-                'bgColor' => $qrCodeParameter->bgColor,
-                'moduleValues' => [
-                    QRMatrix::M_FINDER_DARK    => $qrCodeParameter->color,
-                    QRMatrix::M_FINDER_DOT     => $qrCodeParameter->color,
-                    QRMatrix::M_FINDER         => $qrCodeParameter->bgColor,
-                    QRMatrix::M_ALIGNMENT_DARK => $qrCodeParameter->color,
-                    QRMatrix::M_ALIGNMENT      => $qrCodeParameter->bgColor,
-                    QRMatrix::M_VERSION_DARK   => $qrCodeParameter->color,
-                    QRMatrix::M_VERSION        => $qrCodeParameter->bgColor,
-                    QRMatrix::M_TIMING_DARK    => $qrCodeParameter->color,
-                    QRMatrix::M_TIMING         => $qrCodeParameter->bgColor,
-                    QRMatrix::M_FORMAT_DARK    => $qrCodeParameter->color,
-                    QRMatrix::M_FORMAT         => $qrCodeParameter->bgColor,
-                    QRMatrix::M_DARKMODULE     => $qrCodeParameter->color,
-                    QRMatrix::M_SEPARATOR      => $qrCodeParameter->bgColor,
-                    QRMatrix::M_DATA_DARK      => $qrCodeParameter->color,
-                    QRMatrix::M_DATA           => $qrCodeParameter->bgColor,
-                ],
-            ];
-        }
+        $svgBgColor = $qrCodeParameter->transparent ? 'transparent' : $qrCodeParameter->bgColor;
+
+        return $options = [
+            //'version' => 10,
+            'versionMin'          => 2,
+            'versionMax'          => 20,
+            'eccLevel'            => $qrCodeParameter->logoUrl ? EccLevel::H : $eccLevel,
+            'outputType'          => $outputType,
+            'imagickFormat'       => $format,
+
+            'drawCircularModules' => $qrCodeParameter->drawCircularModules,
+            'circleRadius'        => $qrCodeParameter->circleRadius / 100,
+            'connectPaths'        => true,
+            'keepAsSquare'        => $qrCodeParameter->keepAsSquare ? [
+                    QRMatrix::M_FINDER_DARK,
+                    QRMatrix::M_FINDER_DOT,
+                    QRMatrix::M_ALIGNMENT_DARK,
+                ] : [],
+
+            'addLogoSpace'        => !empty($qrCodeParameter->logoUrl),
+            'logoSpaceWidth'      => $qrCodeParameter->logoSpaceWidth,
+            'logoSpaceHeight'     => $qrCodeParameter->logoSpaceHeight,
+
+            'scale'               => $qrCodeParameter->scale,
+
+            'bgColor'             => $qrCodeParameter->bgColor,
+            'imageTransparent'    => $qrCodeParameter->transparent,
+            'drawLightModules'    => false,
+
+            'moduleValues' => [
+                QRMatrix::M_FINDER_DARK    => $qrCodeParameter->color1,
+                QRMatrix::M_FINDER_DOT     => $qrCodeParameter->color2,
+                QRMatrix::M_FINDER         => $qrCodeParameter->bgColor,
+                QRMatrix::M_ALIGNMENT_DARK => $qrCodeParameter->color3,
+                QRMatrix::M_ALIGNMENT      => $qrCodeParameter->bgColor,
+                QRMatrix::M_VERSION_DARK   => $qrCodeParameter->color4,
+                QRMatrix::M_VERSION        => $qrCodeParameter->bgColor,
+                QRMatrix::M_TIMING_DARK    => $qrCodeParameter->color4,
+                QRMatrix::M_TIMING         => $qrCodeParameter->bgColor,
+                QRMatrix::M_FORMAT_DARK    => $qrCodeParameter->color4,
+                QRMatrix::M_FORMAT         => $qrCodeParameter->bgColor,
+                QRMatrix::M_DARKMODULE     => $qrCodeParameter->color4,
+                QRMatrix::M_SEPARATOR      => $qrCodeParameter->bgColor,
+                QRMatrix::M_DATA_DARK      => $qrCodeParameter->color4,
+                QRMatrix::M_DATA           => $qrCodeParameter->bgColor,
+            ],
+
+            'svgUseFillAttributes'  => false,
+            'svgDefs'               => <<<SVG
+                    <style><![CDATA[
+                        .dark {fill: {$qrCodeParameter->color1};}
+                        /*.light {fill: {$qrCodeParameter->bgColor};}*/
+                        svg {background-color: {$svgBgColor};}
+                    ]]></style>
+                    SVG,
+//
+//            'svgDefs' => <<<SVG
+//                    <linearGradient id="rainbow" x1="1" y2="1">
+//                        <stop stop-color="#e2453c" offset="0"/>
+//                        <stop stop-color="#e07e39" offset="0.2"/>
+//                        <stop stop-color="#e5d667" offset="0.4"/>
+//                        <stop stop-color="#51b95b" offset="0.6"/>
+//                        <stop stop-color="#1e72b7" offset="0.8"/>
+//                        <stop stop-color="#6f5ba7" offset="1"/>
+//                    </linearGradient>
+//                    <style><![CDATA[
+//                        .dark{fill: url(#rainbow);}
+//                        .light{fill: #eee;}
+//                    ]]></style>
+//                    SVG,
+//
+        ];
 
     }
 

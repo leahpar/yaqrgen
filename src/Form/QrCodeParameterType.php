@@ -19,20 +19,41 @@ class QrCodeParameterType extends AbstractType
                 'choices' => [
                     'png' => 'png',
                     'jpg' => 'jpg',
-                    'wepb' => 'wepb',
+                    //'wepb' => 'wepb',
                     'svg' => 'svg',
                 ],
             ])
-            ->add('logoUrl', Type\UrlType::class, [
-                'required' => false,
+            ->add('eccLevel', Type\ChoiceType::class, [
+                'choices' => [
+                    'Lowest' => 'L',
+                    'Medium' => 'M',
+                    'Quality' => 'Q',
+                    'Highest' => 'H',
+                ],
             ])
 
-            ->add('color', Type\ColorType::class)
+            // ---------- LOGO ----------
+            ->add('logoUrl', Type\UrlType::class)
+            ->add('logoSpaceWidth', Type\IntegerType::class)
+            ->add('logoSpaceHeight', Type\IntegerType::class)
+
+            ->add('scale', Type\IntegerType::class)
+
+            ->add('color1', Type\ColorType::class)
+            ->add('color2', Type\ColorType::class)
+            ->add('color3', Type\ColorType::class)
+            ->add('color4', Type\ColorType::class)
             ->add('bgColor', Type\ColorType::class)
-            ->add('transparent', Type\CheckboxType::class, [
-                'required' => false,
-            ])
+            ->add('transparent', Type\CheckboxType::class)
+
+            ->add('drawCircularModules', Type\CheckboxType::class)
+            ->add('keepAsSquare', Type\CheckboxType::class)
+            ->add('circleRadius', Type\IntegerType::class)
         ;
+
+        foreach ($builder->all() as $child) {
+            $child->setRequired(false);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -40,6 +61,11 @@ class QrCodeParameterType extends AbstractType
         $resolver->setDefaults([
             'data_class' => QrCodeParameter::class,
         ]);
+    }
+
+    public function getBlockPrefix(): string
+    {
+        return '';
     }
 
 }

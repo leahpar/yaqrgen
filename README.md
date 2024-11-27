@@ -28,10 +28,13 @@ composer install
 Compilation tainwindcss
 
 ```
+# DEV
 php bin/console tailwind:build
+
+# PROD
+php bin/console tailwind:build --minify
+php bin/console asset-map:compile
 ```
-
-
 
  Enjoy !
  

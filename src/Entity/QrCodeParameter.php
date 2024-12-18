@@ -31,7 +31,7 @@ class QrCodeParameter
     #[Assert\Choice(choices: ['L', 'M', 'Q', 'H'])]
     public string $eccLevel = 'M';
 
-    #[Assert\Url]
+    #[Assert\Url(requireTld: false)]
     public ?string $logoUrl = null;
 
     public ?int $logoSpaceWidth = 10;

@@ -10,32 +10,32 @@
         "ext-iconv": "*",
         "chillerlan/php-qrcode": "^5.0",
         "symfony/apache-pack": "^1.0",
-        "symfony/asset": "7.0.*",
-        "symfony/asset-mapper": "7.0.*",
-        "symfony/console": "7.0.*",
-        "symfony/dotenv": "7.0.*",
-        "symfony/expression-language": "7.0.*",
+        "symfony/asset": "7.2.*",
+        "symfony/asset-mapper": "7.2.*",
+        "symfony/console": "7.2.*",
+        "symfony/dotenv": "7.2.*",
+        "symfony/expression-language": "7.2.*",
         "symfony/flex": "^2",
-        "symfony/form": "7.0.*",
-        "symfony/framework-bundle": "7.0.*",
-        "symfony/mime": "7.0.*",
-        "symfony/property-access": "7.0.*",
-        "symfony/property-info": "7.0.*",
-        "symfony/runtime": "7.0.*",
-        "symfony/serializer": "7.0.*",
-        "symfony/string": "7.0.*",
-        "symfony/twig-bundle": "7.0.*",
-        "symfony/validator": "7.0.*",
-        "symfony/yaml": "7.0.*",
+        "symfony/form": "7.2.*",
+        "symfony/framework-bundle": "7.2.*",
+        "symfony/mime": "7.2.*",
+        "symfony/property-access": "7.2.*",
+        "symfony/property-info": "7.2.*",
+        "symfony/runtime": "7.2.*",
+        "symfony/serializer": "7.2.*",
+        "symfony/string": "7.2.*",
+        "symfony/twig-bundle": "7.2.*",
+        "symfony/validator": "7.2.*",
+        "symfony/yaml": "7.2.*",
         "symfonycasts/tailwind-bundle": "^0.2.1",
-        "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/extra-bundle": "^3.0",
+        "twig/twig": "^3.0"
     },
     "require-dev": {
-        "symfony/debug-bundle": "7.0.*",
+        "symfony/debug-bundle": "7.2.*",
         "symfony/maker-bundle": "^1.0",
-        "symfony/stopwatch": "7.0.*",
-        "symfony/web-profiler-bundle": "7.0.*"
+        "symfony/stopwatch": "7.2.*",
+        "symfony/web-profiler-bundle": "7.2.*"
     },
     "config": {
         "allow-plugins": {
@@ -84,7 +84,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.0.*"
+            "require": "7.2.*"
         }
     }
 }

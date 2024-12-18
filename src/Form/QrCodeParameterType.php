@@ -39,7 +39,6 @@ class QrCodeParameterType extends AbstractType
 
             ->add('scale', Type\IntegerType::class)
 
-            ->add('color',   Type\ColorType::class)
             ->add('color1',  Type\ColorType::class)
             ->add('color2',  Type\ColorType::class)
             ->add('color3',  Type\ColorType::class)

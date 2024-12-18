@@ -13,13 +13,15 @@ class QrCodeParameter
     public string $format = 'png';
 
     #[Assert\Regex(pattern: '/^#[0-9a-fA-F]{6}$/')]
-    public string $color1 = '#000000';
+    public string $color  = '#000000';
     #[Assert\Regex(pattern: '/^#[0-9a-fA-F]{6}$/')]
-    public string $color2 = '#000000';
+    public ?string $color1 = null;
     #[Assert\Regex(pattern: '/^#[0-9a-fA-F]{6}$/')]
-    public string $color3 = '#000000';
+    public ?string $color2 = null;
     #[Assert\Regex(pattern: '/^#[0-9a-fA-F]{6}$/')]
-    public string $color4 = '#000000';
+    public ?string $color3 = null;
+    #[Assert\Regex(pattern: '/^#[0-9a-fA-F]{6}$/')]
+    public ?string $color4 = null;
 
     #[Assert\Regex(pattern: '/^#[0-9a-fA-F]{6}$/')]
     public string $bgColor = '#FFFFFF';

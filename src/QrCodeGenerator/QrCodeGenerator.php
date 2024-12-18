@@ -58,6 +58,12 @@ class QrCodeGenerator
 
         $svgBgColor = $qrCodeParameter->transparent ? 'transparent' : $qrCodeParameter->bgColor;
 
+        // Set default colors
+        $qrCodeParameter->color1 ??= $qrCodeParameter->color;
+        $qrCodeParameter->color2 ??= $qrCodeParameter->color;
+        $qrCodeParameter->color3 ??= $qrCodeParameter->color;
+        $qrCodeParameter->color4 ??= $qrCodeParameter->color;
+
         return $options = [
             //'version' => 10,
             'versionMin'          => 2,

@@ -34,15 +34,16 @@ class QrCodeParameterType extends AbstractType
 
             // ---------- LOGO ----------
             ->add('logoUrl', Type\UrlType::class)
-            ->add('logoSpaceWidth', Type\IntegerType::class)
+            ->add('logoSpaceWidth',  Type\IntegerType::class)
             ->add('logoSpaceHeight', Type\IntegerType::class)
 
             ->add('scale', Type\IntegerType::class)
 
-            ->add('color1', Type\ColorType::class)
-            ->add('color2', Type\ColorType::class)
-            ->add('color3', Type\ColorType::class)
-            ->add('color4', Type\ColorType::class)
+            ->add('color',   Type\ColorType::class)
+            ->add('color1',  Type\ColorType::class)
+            ->add('color2',  Type\ColorType::class)
+            ->add('color3',  Type\ColorType::class)
+            ->add('color4',  Type\ColorType::class)
             ->add('bgColor', Type\ColorType::class)
             ->add('transparent', Type\CheckboxType::class)
 

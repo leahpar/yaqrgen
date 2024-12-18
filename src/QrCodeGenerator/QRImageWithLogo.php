@@ -18,13 +18,15 @@ class QRImageWithLogo extends QRGdImagePNG
 
     public function dump(string $file = null, string $logo = null) :string
     {
+        // Open the logo image
+        // Throw an exception if the logo file is not readable
+        $im = imagecreatefromstring(file_get_contents($logo));
+
         // set returnResource to true to skip further processing for now
         $this->options->returnResource = true;
 
         // there's no need to save the result of dump() into $this->image here
         parent::dump($file);
-
-        $im = imagecreatefromstring(file_get_contents($logo));
 
         // get logo image size
         $w = imagesx($im);

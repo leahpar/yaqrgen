@@ -27,13 +27,17 @@ class QrCodeGenerator
 
         if ($qrCodeParameter->logoUrl) {
             $qrOutputInterface = $this->getOutputInterfaceForLogo($qroptions, $matrix, $format);
-            $imageData = $qrOutputInterface->dump(null, $qrCodeParameter->logoUrl);
-            return sprintf('data:image/%s;base64,%s', $format, base64_encode($imageData));
+            try {
+                $imageData = $qrOutputInterface->dump(null, $qrCodeParameter->logoUrl);
+                return sprintf('data:image/%s;base64,%s', $format, base64_encode($imageData));
+            }
+            catch (\Exception) {
+                return $qrcode->renderMatrix($matrix);
+            }
         }
         else {
             return $qrcode->renderMatrix($matrix);
         }
-
     }
 
     private function getOutputInterfaceForLogo($qroptions, $matrix, string $format): QROutputAbstract

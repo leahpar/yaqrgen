@@ -19,8 +19,13 @@ class QRImageWithLogo extends QRGdImagePNG
     public function dump(string $file = null, string $logo = null) :string
     {
         // Open the logo image
-        // Throw an exception if the logo file is not readable
+        // Should throw an exception if the logo file is not readable
         $im = imagecreatefromstring(file_get_contents($logo));
+
+        if ($im === false) {
+            // Explicitly throw an exception if not already done by imagecreatefromstring or file_get_contents
+            throw new QRCodeOutputException('Unable to read the logo file');
+        }
 
         // set returnResource to true to skip further processing for now
         $this->options->returnResource = true;
